@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🇩🇪 Wortschatz Flashcards | WFA Akademie</title>
+  <title>🇩🇪 Business-Wortschatz Flashcards | WFA Akademie</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -159,6 +159,7 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 18px;
       margin: 25px 0;
+      flex-grow: 1;
     }
     
     .category-card {
@@ -211,6 +212,7 @@
       font-weight: 700;
       color: #61a9f9;
       margin-bottom: 8px;
+      text-transform: capitalize;
     }
     
     .category-count {
@@ -229,12 +231,13 @@
     
     .flashcard {
       width: 100%;
-      height: 320px;
+      height: 340px;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       cursor: pointer;
       margin: 0 auto;
+      transform-origin: center center;
     }
     
     .flashcard.flipped {
@@ -247,7 +250,7 @@
       height: 100%;
       backface-visibility: hidden;
       border-radius: 24px;
-      padding: 25px;
+      padding: 30px 25px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -255,104 +258,143 @@
       text-align: center;
       box-shadow: 0 12px 30px rgba(0, 20, 50, 0.5);
       border: 2px solid rgba(58, 123, 213, 0.4);
+      background: linear-gradient(145deg, #1a2a4a, #15233d);
+      transform-style: preserve-3d;
+      top: 0;
+      left: 0;
     }
     
     .card-front {
-      background: linear-gradient(145deg, #1a2a4a, #15233d);
       transform: rotateY(0deg);
-      padding-top: 35px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card-front::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, #3a7bd5, #00a8ff, #3a7bd5);
+      z-index: 1;
     }
     
     .card-back {
-      background: linear-gradient(145deg, #1e3255, #182a48);
       transform: rotateY(180deg);
       border: 2px solid rgba(0, 168, 255, 0.5);
-      padding-top: 25px;
+      overflow-y: auto;
+      max-height: 100%;
+      background: linear-gradient(145deg, #1e3255, #182a48);
+      padding: 25px;
     }
     
     .word-icon {
-      font-size: 68px;
+      font-size: 72px;
       margin-bottom: 15px;
       height: 80px;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: pulseIcon 2s infinite;
-      text-shadow: 0 0 20px rgba(97, 169, 249, 0.6);
+      animation: pulseIcon 3s ease-in-out infinite;
+      text-shadow: 0 0 15px rgba(97, 169, 249, 0.5);
+      position: relative;
+      z-index: 2;
     }
     
     @keyframes pulseIcon {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      50% { transform: scale(1.05); }
     }
     
     .word-german {
-      font-size: 38px;
+      font-size: 42px;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 10px;
-      text-shadow: 0 0 15px rgba(97, 169, 249, 0.7);
-      line-height: 1.2;
-      letter-spacing: -0.3px;
+      margin-bottom: 12px;
+      text-shadow: 0 0 12px rgba(97, 169, 249, 0.6);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      word-break: break-word;
+      max-width: 90%;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .word-german.long-word {
+      font-size: 36px !important;
+      line-height: 1.1;
     }
     
     .word-article {
       font-size: 28px;
-      color: #8ab4f8;
-      margin-bottom: 8px;
-      font-weight: 600;
+      font-weight: 700;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
     }
     
+    .article-die { color: #FF5252; text-shadow: 0 0 8px rgba(255, 82, 82, 0.6); }
+    .article-der { color: #42A5F5; text-shadow: 0 0 8px rgba(66, 165, 245, 0.6); }
+    .article-das { color: #66BB6A; text-shadow: 0 0 8px rgba(102, 187, 106, 0.6); }
+    
     .word-category {
-      font-size: 18px;
+      font-size: 17px;
       color: #61a9f9;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
       font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-transform: capitalize;
+      position: relative;
+      z-index: 2;
     }
     
     .meaning-title {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       color: #00a8ff;
-      margin-bottom: 15px;
-      text-shadow: 0 0 10px rgba(0, 168, 255, 0.4);
+      margin-bottom: 12px;
+      text-shadow: 0 0 8px rgba(0, 168, 255, 0.3);
     }
     
     .meaning-text {
-      font-size: 19px;
-      line-height: 1.55;
+      font-size: 18px;
+      line-height: 1.5;
       color: #e6f0ff;
-      margin-bottom: 18px;
-      padding: 0 10px;
+      margin-bottom: 15px;
+      padding: 0 8px;
+      word-break: break-word;
     }
     
     .synonyms-title {
-      font-size: 19px;
+      font-size: 18px;
       color: #8ab4f8;
-      margin: 15px 0 10px;
+      margin: 12px 0 8px;
       font-weight: 600;
+      text-transform: capitalize;
     }
     
     .synonyms-list {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 7px;
+      margin-top: 6px;
       padding: 0 5px;
     }
     
     .synonym {
       background: rgba(0, 100, 200, 0.25);
       border-radius: 14px;
-      padding: 5px 14px;
-      font-size: 16px;
+      padding: 4px 12px;
+      font-size: 15px;
       color: #61a9f9;
       font-weight: 500;
       border: 1px solid rgba(97, 169, 249, 0.4);
-      min-width: 80px;
+      min-width: 75px;
+      word-break: break-word;
+      text-transform: capitalize;
     }
     
     .controls {
@@ -360,6 +402,7 @@
       justify-content: center;
       gap: 15px;
       margin-top: 25px;
+      margin-bottom: 25px;
       flex-wrap: wrap;
     }
     
@@ -476,6 +519,261 @@
       color: #61a9f9;
     }
     
+    /* Results Screen - SPEKTAKULÄRER ABSCHLUSS */
+    .results-screen {
+      text-align: center;
+      padding: 20px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.6s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .results-screen::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, rgba(220,0,0,0.05) 70%, transparent 100%);
+      z-index: -1;
+      animation: pulseBackground 4s infinite;
+    }
+    
+    @keyframes pulseBackground {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+    
+    .trophy-icon {
+      font-size: 80px;
+      margin: 15px 0 25px;
+      animation: bounce 1.5s infinite;
+      text-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+      z-index: 5;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.1); }
+    }
+    
+    .clapping-hands {
+      font-size: 60px;
+      margin: 10px 0 25px;
+      animation: clap 0.5s infinite alternate;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+    }
+    
+    @keyframes clap {
+      from { transform: scale(1); }
+      to { transform: scale(1.15); }
+    }
+    
+    .congrats-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 10px 0 15px;
+      background: linear-gradient(45deg, #FFD700, #DC0000, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+      line-height: 1.2;
+      animation: titleGlow 1.5s ease-in-out infinite;
+      z-index: 5;
+    }
+    
+    .student-name {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFD700;
+      margin: 5px 0 20px;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      animation: nameFloat 2.5s ease-in-out infinite;
+      z-index: 5;
+    }
+    
+    @keyframes nameFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    .score-display {
+      font-size: 72px;
+      font-weight: 800;
+      background: linear-gradient(45deg, #FFD700, #DC0000);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 10px 0 25px;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      position: relative;
+      line-height: 1;
+      animation: scoreGlow 1.2s ease-in-out infinite;
+      z-index: 5;
+    }
+    
+    @keyframes scoreGlow {
+      0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+      50% { text-shadow: 0 0 35px rgba(255, 215, 0, 0.9); }
+    }
+    
+    .score-display::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85%;
+      height: 5px;
+      background: linear-gradient(90deg, #0a1929, #DC0000, #FFD700, #DC0000, #0a1929);
+      border-radius: 3px;
+      z-index: -1;
+    }
+    
+    .badge-container {
+      margin: 20px 0 25px;
+      padding: 25px 20px;
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(30,30,30,0.95), rgba(20,20,20,0.98));
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.4), var(--wfa-elevation-3);
+      min-width: 290px;
+      position: relative;
+      overflow: hidden;
+      border: 3px solid #DC0000;
+      animation: badgeFloat 2s ease-in-out infinite;
+      z-index: 5;
+    }
+    
+    @keyframes badgeFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .badge-container::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, transparent 70%);
+      z-index: -1;
+      animation: rotate 8s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .badge-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #FFD700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+    
+    .badge-name {
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(45deg, #FFD700, #DC0000, #FFD700);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+      letter-spacing: -1px;
+      margin: 4px 0;
+      animation: badgeGlow 1.8s ease-in-out infinite;
+    }
+    
+    @keyframes badgeGlow {
+      0%, 100% { text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); }
+      50% { text-shadow: 0 0 25px rgba(255, 215, 0, 0.95); }
+    }
+    
+    .encouragement-text {
+      font-size: 21px;
+      margin: 20px 0 30px;
+      line-height: 1.5;
+      color: #e6f0ff;
+      max-width: 95%;
+      background: rgba(40, 40, 50, 0.85);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 5;
+      font-weight: 500;
+    }
+    
+    .encouragement-text::before {
+      content: """;
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      font-size: 80px;
+      color: rgba(255, 215, 0, 0.3);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    
+    .encouragement-text::after {
+      content: """;
+      position: absolute;
+      bottom: -40px;
+      right: 10px;
+      font-size: 80px;
+      color: rgba(255, 215, 0, 0.3);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    
+    .motivation-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: #FFD700;
+      margin: 15px 0;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      animation: pulseText 2s infinite;
+      z-index: 5;
+      line-height: 1.3;
+      padding: 15px;
+      background: rgba(30, 30, 40, 0.7);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      max-width: 90%;
+    }
+    
+    @keyframes pulseText {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .star {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #FFD700;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 3;
+      animation: twinkle 3s infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
     .confetti {
       position: absolute;
       width: 8px;
@@ -491,12 +789,21 @@
       100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
     
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(2deg); }
+    /* PERFECT FLIP ANIMATION - CARD STAYS IN PLACE */
+    .flashcard {
+      transform-origin: center center;
     }
     
-    /* Responsive adjustments */
+    .card-face {
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+    }
+    
+    .card-back {
+      transform: rotateY(180deg);
+    }
+    
+    /* Responsive adjustments for "die Arbeitsbedingungen" */
     @media (max-width: 480px) {
       .app-container {
         border-radius: 0;
@@ -505,7 +812,7 @@
         border: none;
       }
       
-      .header {
+      .app-header {
         height: 100px;
         padding: 15px;
       }
@@ -555,33 +862,39 @@
       }
       
       .flashcard {
-        height: 300px;
+        height: 320px;
       }
       
       .word-icon {
-        font-size: 58px;
+        font-size: 60px;
         height: 70px;
       }
       
       .word-german {
-        font-size: 34px;
+        font-size: 36px;
+      }
+      
+      .word-german.long-word {
+        font-size: 26px !important;
+        line-height: 1.2;
       }
       
       .word-article {
-        font-size: 25px;
+        font-size: 24px;
       }
       
       .meaning-title {
-        font-size: 22px;
+        font-size: 20px;
       }
       
       .meaning-text {
-        font-size: 18px;
+        font-size: 17px;
       }
       
       .synonym {
-        font-size: 15px;
-        padding: 4px 12px;
+        font-size: 14px;
+        padding: 3px 10px;
+        min-width: 70px;
       }
       
       .control-btn {
@@ -594,28 +907,63 @@
         font-size: 15px;
         padding: 15px;
       }
+      
+      .trophy-icon {
+        font-size: 70px;
+      }
+      
+      .clapping-hands {
+        font-size: 50px;
+      }
+      
+      .congrats-title {
+        font-size: 30px;
+      }
+      
+      .student-name {
+        font-size: 28px;
+      }
+      
+      .score-display {
+        font-size: 60px;
+      }
+      
+      .badge-name {
+        font-size: 36px;
+      }
+      
+      .encouragement-text {
+        font-size: 19px;
+        padding: 18px;
+      }
+      
+      .motivation-text {
+        font-size: 20px;
+        padding: 12px;
+      }
     }
     
     @media (max-width: 360px) {
       .flashcard {
-        height: 290px;
+        height: 300px;
       }
       
       .word-icon {
-        font-size: 52px;
+        font-size: 54px;
         height: 65px;
       }
       
-      .word-german {
-        font-size: 32px;
+      .word-german.long-word {
+        font-size: 24px !important;
+        line-height: 1.2;
       }
       
       .word-article {
-        font-size: 23px;
+        font-size: 22px;
       }
       
       .meaning-text {
-        font-size: 17px;
+        font-size: 16px;
       }
       
       .control-btn {
@@ -623,6 +971,137 @@
         font-size: 16px;
         min-width: 130px;
       }
+      
+      .results-screen {
+        padding: 15px;
+      }
+      
+      .score-display {
+        font-size: 56px;
+      }
+      
+      .badge-container {
+        padding: 20px 15px;
+        min-width: 260px;
+      }
+      
+      .badge-name {
+        font-size: 34px;
+      }
+      
+      .motivation-text {
+        font-size: 19px;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .app-container {
+        max-width: 800px;
+      }
+      
+      .flashcard {
+        height: 360px;
+      }
+      
+      .word-icon {
+        font-size: 80px;
+      }
+      
+      .word-german {
+        font-size: 46px;
+      }
+      
+      .word-german.long-word {
+        font-size: 34px !important;
+        line-height: 1.15;
+      }
+      
+      .word-article {
+        font-size: 30px;
+      }
+      
+      .meaning-title {
+        font-size: 24px;
+      }
+      
+      .meaning-text {
+        font-size: 19px;
+      }
+      
+      .synonym {
+        font-size: 16px;
+        padding: 5px 14px;
+      }
+      
+      .trophy-icon {
+        font-size: 90px;
+      }
+      
+      .clapping-hands {
+        font-size: 70px;
+      }
+      
+      .congrats-title {
+        font-size: 42px;
+      }
+      
+      .student-name {
+        font-size: 38px;
+      }
+      
+      .score-display {
+        font-size: 80px;
+      }
+      
+      .badge-name {
+        font-size: 48px;
+      }
+      
+      .encouragement-text {
+        font-size: 22px;
+      }
+      
+      .motivation-text {
+        font-size: 26px;
+      }
+    }
+    
+    /* Creative category-specific backgrounds */
+    .card-front.people::before {
+      background: linear-gradient(90deg, #FF5252, #FF8A80, #FF5252) !important;
+    }
+    
+    .card-front.places::before {
+      background: linear-gradient(90deg, #42A5F5, #81D4FA, #42A5F5) !important;
+    }
+    
+    .card-front.transport::before {
+      background: linear-gradient(90deg, #9575CD, #B39DDB, #9575CD) !important;
+    }
+    
+    .card-front.adjectives::before {
+      background: linear-gradient(90deg, #FFCA28, #FFE082, #FFCA28) !important;
+    }
+    
+    .card-front.documents::before {
+      background: linear-gradient(90deg, #66BB6A, #A5D6A7, #66BB6A) !important;
+    }
+    
+    .card-front.devices::before {
+      background: linear-gradient(90deg, #7E57C2, #B39DDB, #7E57C2) !important;
+    }
+    
+    /* Extra safety: hide non-active screens */
+    .screen:not(.active) {
+      display: none !important;
+    }
+    
+    /* Capitalize only first letter of each word for categories and synonyms */
+    .category-title,
+    .word-category,
+    .synonyms-title,
+    .synonym {
+      text-transform: capitalize;
     }
   </style>
 </head>
@@ -703,9 +1182,9 @@
       
       <div class="flashcard-container">
         <div class="flashcard" id="flashcard">
-          <div class="card-face card-front">
+          <div class="card-face card-front" id="cardFront">
             <div class="word-icon" id="wordIcon">👷</div>
-            <div class="word-article" id="wordArticle">der</div>
+            <div class="word-article article-der" id="wordArticle">der</div>
             <div class="word-german" id="wordGerman">Arbeiter</div>
             <div class="word-category" id="wordCategory">Menschen</div>
           </div>
@@ -730,11 +1209,54 @@
         </button>
       </div>
     </div>
+    
+    <!-- Results Screen - SPEKTAKULÄRER ABSCHLUSS -->
+    <div class="screen results-screen" id="screen-results">
+      <div class="app-header">
+        <div class="logo-container">
+          <div class="logo-letters">
+            <div class="logo-letter w">W</div>
+            <div class="logo-letter f">F</div>
+            <div class="logo-letter a">A</div>
+          </div>
+          <div class="logo-subtitle">Akademie</div>
+        </div>
+      </div>
+      
+      <div class="trophy-icon">🏆</div>
+      
+      <div class="clapping-hands">👏</div>
+      
+      <h1 class="congrats-title">🎉 HERZLICHEN GLÜCKWUNSCH! 🎉</h1>
+      
+      <div class="student-name" id="resultStudentName">Teilnehmer</div>
+      
+      <div class="score-display" id="finalScore">17/17</div>
+      
+      <div class="badge-container">
+        <div class="badge-title">Verdienter Titel</div>
+        <div class="badge-name" id="badgeName">WORTSCHATZ-MEISTER</div>
+      </div>
+      
+      <p class="encouragement-text" id="encouragementText">
+        🌟 ABSOLUT SPITZE! Du hast alle 17 Business-Wörter perfekt gelernt. Deine Deutschkenntnisse im Berufsbereich sind beeindruckend! 🌟
+      </p>
+      
+      <div class="motivation-text">
+        🚀 Dein Erfolg heute ist nur der Anfang! Bleib dran, übe weiter und werde zum Deutsch-Meister! Jeder Tag bringt dich deinem Ziel näher. 🌱
+      </div>
+      
+      <div class="controls">
+        <button class="control-btn btn-next" id="restartBtn">
+          Neues Quiz Starten ▶
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
     // ======================
-    // WORTSCHATZ DATEN MIT VISUELLEN SYMBOL
+    // WORTSCHATZ DATEN MIT VISUELLEN SYMBOL UND ARTIKEL-FARBEN
     // ======================
     const vocabulary = [
       {
@@ -744,7 +1266,8 @@
         icon: "👷",
         meaning: "jemand, der körperliche Arbeit in einem Betrieb oder auf einer Baustelle verrichtet",
         synonyms: ["Werktätiger", "Fabrikarbeiter", "Handwerker"],
-        color: "#ff6b6b"
+        color: "#ff6b6b",
+        articleClass: "article-der"
       },
       {
         word: "Angestellte",
@@ -753,7 +1276,8 @@
         icon: "👩‍💼",
         meaning: "jemand, der in einem Büro oder einer Firma kaufmännische oder verwaltende Tätigkeiten ausführt",
         synonyms: ["Bürokauffrau", "Sachbearbeiterin", "Mitarbeiterin"],
-        color: "#ff6b6b"
+        color: "#ff6b6b",
+        articleClass: "article-die"
       },
       {
         word: "Betrieb",
@@ -762,7 +1286,8 @@
         icon: "🏭",
         meaning: "eine Firma oder Einrichtung, in der gearbeitet wird",
         synonyms: ["Unternehmen", "Firma", "Institution"],
-        color: "#48dbfb"
+        color: "#48dbfb",
+        articleClass: "article-der"
       },
       {
         word: "Firma",
@@ -771,7 +1296,8 @@
         icon: "🏢",
         meaning: "ein Unternehmen, das Waren herstellt oder Dienstleistungen anbietet",
         synonyms: ["Unternehmen", "Gesellschaft", "Organisation"],
-        color: "#48dbfb"
+        color: "#48dbfb",
+        articleClass: "article-die"
       },
       {
         word: "Lager",
@@ -780,7 +1306,8 @@
         icon: "📦",
         meaning: "ein Raum oder Gebäude, in dem Waren gelagert werden",
         synonyms: ["Magazin", "Speicher", "Depot"],
-        color: "#48dbfb"
+        color: "#48dbfb",
+        articleClass: "article-das"
       },
       {
         word: "Halle",
@@ -789,7 +1316,8 @@
         icon: "🏭",
         meaning: "ein großer, offener Raum in einem Industriegebäude",
         synonyms: ["Werkshalle", "Fabrikraum", "Großraum"],
-        color: "#48dbfb"
+        color: "#48dbfb",
+        articleClass: "article-die"
       },
       {
         word: "LKW",
@@ -798,7 +1326,8 @@
         icon: "🚚",
         meaning: "Lastkraftwagen – ein großes Fahrzeug zum Transport von Waren",
         synonyms: ["Lastwagen", "Transporter", "Brummifahrer (ugs.)"],
-        color: "#a4b0be"
+        color: "#a4b0be",
+        articleClass: "article-der"
       },
       {
         word: "Import",
@@ -807,7 +1336,8 @@
         icon: "⬇️",
         meaning: "das Einführen von Waren aus dem Ausland",
         synonyms: ["Einfuhr", "Importgeschäft"],
-        color: "#a4b0be"
+        color: "#a4b0be",
+        articleClass: "article-der"
       },
       {
         word: "Export",
@@ -816,7 +1346,8 @@
         icon: "⬆️",
         meaning: "das Ausführen von Waren ins Ausland",
         synonyms: ["Ausfuhr", "Exportgeschäft"],
-        color: "#a4b0be"
+        color: "#a4b0be",
+        articleClass: "article-der"
       },
       {
         word: "Maschine",
@@ -825,7 +1356,8 @@
         icon: "⚙️",
         meaning: "ein technisches Gerät, das Arbeit verrichtet",
         synonyms: ["Gerät", "Apparat", "Anlage"],
-        color: "#1dd1a1"
+        color: "#1dd1a1",
+        articleClass: "article-die"
       },
       {
         word: "erfolgreich",
@@ -833,8 +1365,9 @@
         category: "Adjektive",
         icon: "✅",
         meaning: "mit Erfolg verbunden; ein gutes Ergebnis erzielend",
-        synonyms: ["siegreich", "glücklich", "wirksam", "zielführend"],
-        color: "#feca57"
+        synonyms: ["Siegreich", "Glücklich", "Wirksam", "Zielführend"],
+        color: "#feca57",
+        articleClass: ""
       },
       {
         word: "wichtig",
@@ -842,8 +1375,9 @@
         category: "Adjektive",
         icon: "❗",
         meaning: "von großer Bedeutung oder Bedeutung",
-        synonyms: ["bedeutsam", "signifikant", "relevant", "ausschlaggebend"],
-        color: "#feca57"
+        synonyms: ["Bedeutsam", "Signifikant", "Relevant", "Ausschlaggebend"],
+        color: "#feca57",
+        articleClass: ""
       },
       {
         word: "günstig",
@@ -851,8 +1385,9 @@
         category: "Adjektive",
         icon: "💰",
         meaning: "vorteilhaft; unter normalen Bedingungen; bei schönem Wetter",
-        synonyms: ["vorteilhaft", "billig", "preiswert", "gut"],
-        color: "#feca57"
+        synonyms: ["Vorteilhaft", "Billig", "Preiswert", "Gut"],
+        color: "#feca57",
+        articleClass: ""
       },
       {
         word: "selbstständig",
@@ -860,8 +1395,9 @@
         category: "Adjektive",
         icon: "🕊️",
         meaning: "unabhängig; eigenständig handelnd",
-        synonyms: ["unabhängig", "autonom", "eigenverantwortlich", "frei"],
-        color: "#feca57"
+        synonyms: ["Unabhängig", "Autonom", "Eigenverantwortlich", "Frei"],
+        color: "#feca57",
+        articleClass: ""
       },
       {
         word: "überhaupt",
@@ -869,8 +1405,9 @@
         category: "Adverb",
         icon: "🤔",
         meaning: "in irgendeiner Weise; überhaupt nicht = gar nicht",
-        synonyms: ["gänzlich", "völlig", "absolut", "in keiner Weise"],
-        color: "#ff9ff3"
+        synonyms: ["Gänzlich", "Völlig", "Absolut", "In keiner Weise"],
+        color: "#ff9ff3",
+        articleClass: ""
       },
       {
         word: "Bericht",
@@ -879,7 +1416,8 @@
         icon: "📊",
         meaning: "eine schriftliche oder mündliche Darstellung von Ereignissen oder Ergebnissen",
         synonyms: ["Reportage", "Dokumentation", "Zusammenfassung"],
-        color: "#1dd1a1"
+        color: "#1dd1a1",
+        articleClass: "article-der"
       },
       {
         word: "Arbeitsbedingungen",
@@ -888,7 +1426,8 @@
         icon: "📋",
         meaning: "die Umstände, unter denen jemand arbeitet (Lohn, Sicherheit, Arbeitszeit)",
         synonyms: ["Arbeitsumstände", "Rahmenbedingungen", "Arbeitsumwelt"],
-        color: "#ff6b6b"
+        color: "#ff6b6b",
+        articleClass: "article-die"
       }
     ];
 
@@ -897,7 +1436,9 @@
     // ======================
     const screenCategories = document.getElementById('screen-categories');
     const screenFlashcard = document.getElementById('screen-flashcard');
+    const screenResults = document.getElementById('screen-results');
     const flashcard = document.getElementById('flashcard');
+    const cardFront = document.getElementById('cardFront');
     const wordGerman = document.getElementById('wordGerman');
     const wordArticle = document.getElementById('wordArticle');
     const wordIcon = document.getElementById('wordIcon');
@@ -910,12 +1451,19 @@
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');
     const startBtn = document.getElementById('startBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const resultStudentName = document.getElementById('resultStudentName');
+    const finalScoreEl = document.getElementById('finalScore');
+    const badgeNameEl = document.getElementById('badgeName');
+    const encouragementTextEl = document.getElementById('encouragementText');
     const categoryCards = document.querySelectorAll('.category-card');
     
     // Game state
     let currentCardIndex = 0;
     let currentCategory = 'all';
     let isCardFlipped = false;
+    let studentName = "Teilnehmer";
+    let trainingCompleted = false;
     
     // Initialize
     totalCardsEl.textContent = vocabulary.length;
@@ -933,6 +1481,7 @@
     
     // Start learning
     startBtn.addEventListener('click', () => {
+      trainingCompleted = false;
       screenCategories.classList.remove('active');
       screenFlashcard.classList.add('active');
       currentCardIndex = 0;
@@ -961,7 +1510,6 @@
         currentCardIndex--;
         loadCard(currentCardIndex);
         updateProgress();
-        // Ensure card is not flipped when going back
         if (isCardFlipped) {
           flipCard();
           setTimeout(() => {
@@ -969,6 +1517,15 @@
           }, 300);
         }
       }
+    });
+    
+    // Restart button on results screen
+    restartBtn.addEventListener('click', () => {
+      trainingCompleted = false;
+      screenResults.classList.remove('active');
+      screenCategories.classList.add('active');
+      currentCardIndex = 0;
+      isCardFlipped = false;
     });
     
     // Keyboard navigation
@@ -1004,8 +1561,15 @@
       wordIcon.textContent = word.icon;
       wordGerman.textContent = word.word;
       wordArticle.textContent = word.article || '';
+      wordArticle.className = 'word-article ' + word.articleClass;
       wordCategory.textContent = word.category;
       wordMeaning.textContent = word.meaning;
+      
+      // Set category-specific background
+      cardFront.className = 'card-face card-front ' + word.category.toLowerCase();
+      
+      // Apply long-word class only to "Arbeitsbedingungen"
+      wordGerman.className = 'word-german' + (word.word === "Arbeitsbedingungen" ? ' long-word' : '');
       
       // Clear and add synonyms
       wordSynonyms.innerHTML = '';
@@ -1026,7 +1590,7 @@
       }
     }
     
-    // Flip the flashcard
+    // Flip the flashcard (PERFECT NATURAL FLIP - STAYS IN PLACE)
     function flipCard() {
       isCardFlipped = !isCardFlipped;
       flashcard.classList.toggle('flipped');
@@ -1039,22 +1603,45 @@
     function nextCard() {
       currentCardIndex = (currentCardIndex + 1) % vocabulary.length;
       
-      if (currentCardIndex === 0) {
-        // Completed all cards - restart or show celebration
-        createConfettiCelebration(50);
-        setTimeout(() => {
-          alert('🎉 Gratulation! Du hast alle 17 Karten gelernt!\nMöchtest du noch einmal beginnen?');
-        }, 1000);
+      if (currentCardIndex === 0 && !trainingCompleted) {
+        // Mark training as completed to prevent multiple triggers
+        trainingCompleted = true;
+        
+        // Completed all cards - show results screen
+        showResultsScreen();
+      } else {
+        loadCard(currentCardIndex);
+        updateProgress();
       }
-      
-      loadCard(currentCardIndex);
-      updateProgress();
     }
     
     // Update progress bar
     function updateProgress() {
       currentCardEl.textContent = currentCardIndex + 1;
       progressBar.style.width = `${((currentCardIndex + 1) / vocabulary.length) * 100}%`;
+    }
+    
+    // Show results screen (ONLY AFTER COMPLETION)
+    function showResultsScreen() {
+      // Update results screen content
+      resultStudentName.textContent = studentName;
+      finalScoreEl.textContent = `17/17`;
+      badgeNameEl.textContent = "WORTSCHATZ-MEISTER";
+      encouragementTextEl.textContent = "🌟 ABSOLUT SPITZE! Du hast alle 17 Business-Wörter perfekt gelernt. Deine Deutschkenntnisse im Berufsbereich sind beeindruckend! 🌟";
+      
+      // Switch screens with delay to ensure smooth transition
+      screenFlashcard.classList.remove('active');
+      
+      setTimeout(() => {
+        screenResults.classList.add('active');
+        
+        // Play applause sound
+        playApplauseSound();
+        
+        // Create stars and confetti
+        createStars();
+        createConfettiCelebration(120);
+      }, 300);
     }
     
     // Play sound feedback
@@ -1082,33 +1669,76 @@
       }
     }
     
-    // Create confetti celebration
-    function createConfettiCelebration(count = 30) {
-      for (let i = 0; i < count; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.backgroundColor = getRandomConfettiColor();
-        confetti.style.left = `${Math.random() * 100}%`;
-        confetti.style.top = `${Math.random() * 20}%`;
-        confetti.style.width = `${Math.random() * 7 + 3}px`;
-        confetti.style.height = confetti.style.width;
-        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-        confetti.style.opacity = Math.random();
-        confetti.style.zIndex = '2000';
+    // Play applause sound
+    function playApplauseSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
         
-        document.body.appendChild(confetti);
-        
-        // Remove after animation
-        setTimeout(() => {
-          confetti.remove();
-        }, 5000);
+        // Create multiple oscillators for applause effect
+        for (let i = 0; i < 20; i++) {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          
+          osc.type = 'square';
+          osc.frequency.value = 300 + Math.random() * 500;
+          
+          gain.gain.value = 0.05 + Math.random() * 0.1;
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5 + Math.random() * 0.5);
+          
+          osc.start(ctx.currentTime + i * 0.03);
+          osc.stop(ctx.currentTime + 1.8 + i * 0.03);
+        }
+      } catch (e) {
+        console.log("Audio playback not available:", e);
       }
     }
     
-    // Get random confetti color
-    function getRandomConfettiColor() {
-      const colors = ['#3a7bd5', '#00a8ff', '#ff6b6b', '#48dbfb', '#feca57', '#ff9ff3', '#1dd1a1', '#a4b0be'];
-      return colors[Math.floor(Math.random() * colors.length)];
+    // Create confetti celebration
+    function createConfettiCelebration(count = 30) {
+      const colors = ['#DC0000', '#FFD700', '#ffffff', '#48dbfb', '#feca57', '#ff9ff3', '#1dd1a1', '#a4b0be'];
+      
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement('div');
+          confetti.className = 'confetti';
+          confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.left = `${Math.random() * 100}%`;
+          confetti.style.top = `${Math.random() * 20}%`;
+          confetti.style.width = `${Math.random() * 7 + 3}px`;
+          confetti.style.height = confetti.style.width;
+          confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+          confetti.style.opacity = Math.random();
+          confetti.style.zIndex = '21000';
+          
+          document.body.appendChild(confetti);
+          
+          // Remove after animation
+          setTimeout(() => {
+            confetti.remove();
+          }, 5000);
+        }, i * 25);
+      }
+    }
+    
+    // Create stars for results screen
+    function createStars() {
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        // Random size and position
+        const size = Math.random() * 8 + 4;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 3}s`;
+        
+        screenResults.appendChild(star);
+      }
     }
     
     // ======================
